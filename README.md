@@ -9,6 +9,7 @@
 - npm i express cors postgres sequelize eslint
 - npm run init:config
 - npm run db:create
+- troubleshoot (only a part of the process if things are not working as they should)
 
 ## Collaboration
 
@@ -24,3 +25,10 @@
 ![Diagram](./assets/diagram.png)
 
 ## tests
+
+## Features
+
+- Signup for the blog
+- Users can post blog
+- Users can view all other users blog posts
+- Admins can delete posts and update posts depending if users post things that they are not supposed to.

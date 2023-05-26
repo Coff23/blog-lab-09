@@ -4,6 +4,7 @@ const express = require('express');
 const authRoutes = express.Router();
 const { user } = require('./models/index');
 const basicAuth = require('./basic.js');
+const bearerAuth = require('./bearer');
 
 authRoutes.post('/signup', async (req, res, next) => {
   try {
@@ -19,11 +20,21 @@ authRoutes.post('/signup', async (req, res, next) => {
 });
 
 authRoutes.post('/signin', basicAuth, (req, res, next) => {
-  const user = {
-    user: req.user,
-    token: req.user.token,
-  };
-  res.status(200).json(user);
+  try {
+    const user = {
+      user: req.user,
+      token: req.user.token,
+    };
+    res.status(200).json(user);
+  } catch (error) {
+    next(error.message);
+  }
 });
 
-module.exports = {authRoutes};
+// authRoutes.get('/users', basicAuth, async (req, res, next) => {
+//   const userRecord = await user.findAll({});
+//   const list = userRecord.map(user => user.username);
+//   res.status(200).json(list);
+// });
+
+module.exports = authRoutes;
