@@ -16,13 +16,27 @@ afterAll(async () => {
 
 describe('Server tests', () => {
   test('Signup', async () => {
-    let response = (await request.post('/signup')).send({
-      username: 'test',
-      password: 'test',
+    let response = await request.post('/signup').send({
+      username: 'admin',
+      password: 'admin',
       role: 'admin',
     });
 
     expect(response.status).toEqual(201);
-    expect(response.body.user.username).toEqual('test');
+    expect(response.body.user.username).toEqual('admin');
   });
+
+  // test('Signin', async () => {
+  //   let response = await request.post('/signin').auth('admin', 'admin');
+
+  //   expect(response.status).toEqual(200);
+  //   expect(response.body.user.username).toEqual('admin');
+  // });
+
+  // test('Get all users', async () => {
+  //   let response = await request.get('/users');
+
+  //   expect(response.status).toEqual(200);
+  //   expect(response.body[0].username).toEqual('admin');
+  // });
 });
