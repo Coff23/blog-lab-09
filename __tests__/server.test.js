@@ -26,17 +26,17 @@ describe('Server tests', () => {
     expect(response.body.user.username).toEqual('admin');
   });
 
-  // test('Signin', async () => {
-  //   let response = await request.post('/signin').auth('admin', 'admin');
+  test('Signin', async () => {
+    let response = await request.post('/signin').auth('admin', 'admin');
 
-  //   expect(response.status).toEqual(200);
-  //   expect(response.body.user.username).toEqual('admin');
-  // });
+    expect(response.status).toEqual(200);
+    expect(response.body.user.username).toEqual('admin');
+  });
 
-  // test('Get all users', async () => {
-  //   let response = await request.get('/users');
+  test('Get all users', async () => {
+    let response = await request.get('/users');
 
-  //   expect(response.status).toEqual(200);
-  //   expect(response.body[0].username).toEqual('admin');
-  // });
+    expect(response.status).toEqual(200);
+    expect(response.body[0]).toEqual('admin');
+  });
 });

@@ -31,10 +31,10 @@ authRoutes.post('/signin', basicAuth, (req, res, next) => {
   }
 });
 
-// authRoutes.get('/users', basicAuth, async (req, res, next) => {
-//   const userRecord = await user.findAll({});
-//   const list = userRecord.map(user => user.username);
-//   res.status(200).json(list);
-// });
+authRoutes.get('/users', async (req, res, next) => {
+  const userRecord = await user.findAll({});
+  const list = userRecord.map(user => `Name: ${user.username}`);
+  res.status(200).json(list);
+});
 
 module.exports = authRoutes;
