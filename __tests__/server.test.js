@@ -15,6 +15,15 @@ afterAll(async () => {
 });
 
 describe('Server tests', () => {
+
+  let authToken;
+
+  test('Test', async () => {
+    let response = await request.get('/test');
+
+    expect(response.status).toEqual(200);
+  });
+
   test('Signup', async () => {
     let response = await request.post('/signup').send({
       username: 'admin',
@@ -31,12 +40,73 @@ describe('Server tests', () => {
 
     expect(response.status).toEqual(200);
     expect(response.body.user.username).toEqual('admin');
+
+    authToken = response.body.token;
   });
 
   test('Get all users', async () => {
     let response = await request.get('/users');
 
     expect(response.status).toEqual(200);
-    expect(response.body[0]).toEqual('admin');
+    expect(response.body[0]).toEqual('Name: admin ID: 1');
+  });
+
+  test('Get a single user by id', async () => {
+    let response = await request.get('/user/1');
+
+    expect(response.status).toEqual(200);
+  });
+
+  test('Update', async () => {
+    let response = await request.put('/user/1').send({
+      username: 'admin updated',
+      password: 'admin',
+      role: 'user',
+    }).set('Authorization', `Bearer ${authToken}`);
+
+    expect(response.status).toEqual(201);
+    expect(response.body.username).toEqual('admin updated');
+  });
+
+  test('Delete user', async () => {
+    let response = await request.delete('/user/1').set('Authorization', `Bearer ${authToken}`);
+
+    expect(response.status).toEqual(200);
+  });
+
+  test('Create blog post', async () => {
+    let response = await request.post('/blog').send({ author: 'josh', content: 'todays blog post' });
+
+    expect(response.status).toEqual(200);
+    expect(response.body.content).toEqual('todays blog post');
+  });
+
+  test('Get all blogs', async () => {
+    let response = await request.get('/blog');
+
+    expect(response.status).toEqual(200);
+  });
+
+  test('Get blog by id', async () => {
+    let response = await request.get('/blog/1');
+
+    expect(response.status).toEqual(200);
+    expect(response.body.content).toEqual('todays blog post');
+  });
+
+  test('Update blog post', async () => {
+    let response = await request.put('/blog/1').send({
+      author: 'Josh',
+      content: 'todays blog post updated',
+    });
+
+    expect(response.status).toEqual(200);
+    expect(response.body.content).toEqual('todays blog post updated');
+  });
+
+  test('Delete blog post', async () => {
+    let response = await request.delete('/blog/1');
+
+    expect(response.status).toEqual(200);
   });
 });

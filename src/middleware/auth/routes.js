@@ -5,6 +5,7 @@ const authRoutes = express.Router();
 const { user } = require('./models/index');
 const basicAuth = require('./basic.js');
 const bearerAuth = require('./bearer');
+const permissions = require('./acl');
 
 authRoutes.post('/signup', async (req, res, next) => {
   try {
@@ -33,8 +34,31 @@ authRoutes.post('/signin', basicAuth, (req, res, next) => {
 
 authRoutes.get('/users', async (req, res, next) => {
   const userRecord = await user.findAll({});
-  const list = userRecord.map(user => `Name: ${user.username}`);
+  const list = userRecord.map(user => `Name: ${user.username} ID: ${user.id}`);
   res.status(200).json(list);
+});
+
+authRoutes.get('/user/:id', async (req, res, next) => {
+  const singleUser = await user.findOne({where: {id: req.params.id}});
+
+  res.status(200).send(singleUser);
+});
+
+authRoutes.put('/user/:id', bearerAuth, async (req, res, next) => {
+  const id = req.params.id;
+  const obj = req.body;
+  let updateUser = await user.findOne({where:{id}});
+  let updatedUser = await updateUser.update(obj);
+  res.status(201).json(updatedUser);
+});
+
+authRoutes.delete('/user/:id', bearerAuth, permissions('delete'), async (req, res, next) => {
+  console.log(req.user);
+  const deletedUser = await user.findOne({ where: { id: req.params.id } });
+  console.log(deletedUser);
+  await deletedUser.destroy();
+  res.status(200).send(deletedUser);
+  
 });
 
 module.exports = authRoutes;

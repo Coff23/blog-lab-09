@@ -5,6 +5,7 @@ const express = require('express');
 const authRoutes = require('./middleware/auth/routes');
 const notFoundHandler = require('./errorHandlers/404');
 const errorHandler500 = require('./errorHandlers/500');
+const blogRoutes = require('./routes/blogRoutes');
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.get('/test', (req, res, next) => {
 });
 
 app.use(authRoutes);
+app.use(blogRoutes);
 
 //  Error Handling
 app.use(errorHandler500);

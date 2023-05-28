@@ -9,11 +9,11 @@ const userModel = (sequelize, DataTypes) => {
   const model = sequelize.define('Users', {
     username: {type: DataTypes.STRING, required: true, unique: true},
     password: {type: DataTypes.STRING, required: true},
-    role: {type: DataTypes.ENUM('user', 'admin'), required: true, defaultValue: 'user'},
+    role: {type: DataTypes.ENUM('user', 'admin'), required: true},
     token: {
       type: DataTypes.VIRTUAL,
       get() {
-        return jwt.sign({ username: this.username }, SECRET);
+        return jwt.sign({ username: this.username }, SECRET, { expiresIn: 1000 * 60 * 60 * 7});
       },
       set(tokenObj) {
         let token = jwt.sign(tokenObj, SECRET);
