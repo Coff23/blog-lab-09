@@ -13,7 +13,7 @@ const userModel = (sequelize, DataTypes) => {
     token: {
       type: DataTypes.VIRTUAL,
       get() {
-        return jwt.sign({ username: this.username }, SECRET);
+        return jwt.sign({ username: this.username }, SECRET, { expiresIn: 1000 * 60 * 60 * 7});
       },
       set(tokenObj) {
         let token = jwt.sign(tokenObj, SECRET);
@@ -53,6 +53,10 @@ const userModel = (sequelize, DataTypes) => {
     } catch (error) {
       throw new Error(error.message);
     }
+  };
+
+  model.associate = (models) => {
+    model.hasMany(models.Blog, { foreignKey: 'userId'});
   };
 
   return model;
