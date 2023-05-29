@@ -9,7 +9,7 @@ const userModel = (sequelize, DataTypes) => {
   const model = sequelize.define('Users', {
     username: {type: DataTypes.STRING, required: true, unique: true},
     password: {type: DataTypes.STRING, required: true},
-    role: {type: DataTypes.ENUM('user', 'admin'), required: true},
+    role: {type: DataTypes.ENUM('user', 'admin'), required: true, defaultValue: 'user'},
     token: {
       type: DataTypes.VIRTUAL,
       get() {
@@ -53,6 +53,10 @@ const userModel = (sequelize, DataTypes) => {
     } catch (error) {
       throw new Error(error.message);
     }
+  };
+
+  model.associate = (models) => {
+    model.hasMany(models.Blog, { foreignKey: 'userId'});
   };
 
   return model;

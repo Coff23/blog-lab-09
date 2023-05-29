@@ -5,7 +5,7 @@ const authRoutes = express.Router();
 const { user } = require('./models/index');
 const basicAuth = require('./basic.js');
 const bearerAuth = require('./bearer');
-const permissions = require('./acl');
+const acl = require('./acl');
 
 authRoutes.post('/signup', async (req, res, next) => {
   try {
@@ -52,7 +52,7 @@ authRoutes.put('/user/:id', bearerAuth, async (req, res, next) => {
   res.status(201).json(updatedUser);
 });
 
-authRoutes.delete('/user/:id', bearerAuth, permissions('delete'), async (req, res, next) => {
+authRoutes.delete('/user/:id', bearerAuth, acl('delete'), async (req, res, next) => {
   console.log(req.user);
   const deletedUser = await user.findOne({ where: { id: req.params.id } });
   console.log(deletedUser);
