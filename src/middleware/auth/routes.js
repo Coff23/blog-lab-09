@@ -2,7 +2,7 @@
 
 const express = require('express');
 const authRoutes = express.Router();
-const { user } = require('./models/index');
+const { user, blog } = require('./models/index');
 const basicAuth = require('./basic.js');
 const bearerAuth = require('./bearer');
 const acl = require('./acl');
@@ -33,9 +33,9 @@ authRoutes.post('/signin', basicAuth, (req, res, next) => {
 });
 
 authRoutes.get('/users', async (req, res, next) => {
-  const userRecord = await user.findAll({});
-  const list = userRecord.map(user => `Name: ${user.username} ID: ${user.id}`);
-  res.status(200).json(list);
+  const userRecord = await user.findAll({ include: blog });
+  // const list = userRecord.map(user => `Name: ${user.username} ID: ${user.id}`);
+  res.status(200).json(userRecord);
 });
 
 authRoutes.get('/user/:id', async (req, res, next) => {

@@ -11,11 +11,18 @@ const blog = blogModel(sequelize,DataTypes);
 const user = userModel(sequelize, DataTypes);
 
 user.hasMany(blog);
-// blog.belongsTo(user);
+blog.belongsTo(user);
+
+sequelize.sync()
+  .then(() => {
+    console.log('Database synchronized successfully.');
+  })
+  .catch((error) => {
+    console.error('Error synchronizing database:', error);
+  });
 
 module.exports = {
   db: sequelize,
   user,
   blog,
-  
 };
