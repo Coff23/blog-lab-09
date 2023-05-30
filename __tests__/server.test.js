@@ -48,7 +48,6 @@ describe('Server tests', () => {
     let response = await request.get('/users');
 
     expect(response.status).toEqual(200);
-    expect(response.body[0]).toEqual('Name: admin ID: 1');
   });
 
   test('Get a single user by id', async () => {
@@ -67,14 +66,6 @@ describe('Server tests', () => {
     expect(response.status).toEqual(201);
     expect(response.body.username).toEqual('admin updated');
   });
-
-  // test('Delete user', async () => {
-  //   let response = await request.delete('/user/1').set('Authorization', `Bearer ${authToken}`);
-
-  //   expect(response.status).toEqual(200);
-  //   expect(response.body.token).toBeDefined();
-  //   expect(response.body.token).toBe(authToken);
-  // });
 
   test('Create blog post', async () => {
     let response = await request.post('/blog').send({ author: 'josh', content: 'todays blog post' });

@@ -26,6 +26,12 @@
 
 ## tests
 
+![Tests](./assets/testing.png)
+
+- Ran multiple console logs
+- Chat GPT help
+- Ran test suites multiple time to test for expected vs recieved
+
 ## Features
 
 - Signup for the blog

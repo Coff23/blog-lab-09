@@ -3,7 +3,6 @@
 const express = require('express');
 const router = express.Router();
 const { blog } = require('../middleware/auth/models/index');
-const bearerAuth = require('../middleware/auth/bearer');
 
 router.get('/blog', async (req, res, next) => {
   const allPosts = await blog.findAll({});
